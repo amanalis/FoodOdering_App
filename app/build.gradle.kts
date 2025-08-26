@@ -51,5 +51,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation (libs.gson)
     implementation(libs.firebase.auth)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
 }
