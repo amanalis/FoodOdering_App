@@ -2,6 +2,7 @@ package com.example.foodapp.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -85,6 +86,8 @@ public class ListFoodsActivity extends BaseActivity {
         categoryName = getIntent().getStringExtra("CategoryName");
         searchText = getIntent().getStringExtra("text");
         isSearch = getIntent().getBooleanExtra("isSearch", false);
+
+        Log.d("ListFoodsActivity", "CategoryId: " + categoryId + ", isSearch: " + isSearch + ", searchText: " + searchText);
 
         binding.titleTxt.setText(categoryName);
         binding.backbtn.setOnClickListener(view -> finish());

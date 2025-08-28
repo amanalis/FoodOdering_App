@@ -2,6 +2,7 @@ package com.example.foodapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewho
             Intent intent = new Intent(context, ListFoodsActivity.class);
             intent.putExtra("CategoryId",items.get(position).getId());
             intent.putExtra("CategoryName",items.get(position).getName());
+
+            Log.d("ListFoodsActivity", "CategoryId: " + items.get(position).getId());
+
             context.startActivity(intent);
         });
     }
