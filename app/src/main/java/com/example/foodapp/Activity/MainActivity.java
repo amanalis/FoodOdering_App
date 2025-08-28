@@ -1,6 +1,7 @@
 package com.example.foodapp.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import com.example.foodapp.Domain.Price;
 import com.example.foodapp.Domain.Time;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,7 @@ import java.util.Queue;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,24 @@ public class MainActivity extends BaseActivity {
         intiPrice();
         initBestFood();
         initCategory();
+        setVariable();
+    }
+
+    private void setVariable() {
+        binding.logout.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+        binding.searchbtn.setOnClickListener(view -> {
+            String text = binding.searchEdit.getText().toString();
+            if (!text.isEmpty()) {
+                Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
+                intent.putExtra("text", text);
+                intent.putExtra("isSearch", true);
+                startActivity(intent);
+            }
+
+        });
     }
 
     private void initBestFood() {
@@ -56,12 +77,12 @@ public class MainActivity extends BaseActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Foods.class));
                     }
-                    if(list.size() > 0){
-                        binding.bestFoodView.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                    if (list.size() > 0) {
+                        binding.bestFoodView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
                         RecyclerView.Adapter adapter = new BestFoodsAdapter(list);
                         binding.bestFoodView.setAdapter(adapter);
                     }
@@ -75,6 +96,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
     private void initCategory() {
         DatabaseReference myRef = database.getReference("Category");
         binding.progressBarCategory.setVisibility(View.VISIBLE);
@@ -83,12 +105,12 @@ public class MainActivity extends BaseActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Category.class));
                     }
-                    if(list.size() > 0){
-                        binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this,4));
+                    if (list.size() > 0) {
+                        binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                         RecyclerView.Adapter adapter = new CategoryAdapter(list);
                         binding.categoryView.setAdapter(adapter);
                     }
@@ -102,14 +124,15 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
     private void intiPrice() {
         DatabaseReference myRef = database.getReference("Price");
         ArrayList<Price> list = new ArrayList<>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Price.class));
                     }
                     ArrayAdapter<Price> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.sp_item, list);
@@ -131,8 +154,8 @@ public class MainActivity extends BaseActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Time.class));
                     }
                     ArrayAdapter<Time> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.sp_item, list);
@@ -154,8 +177,8 @@ public class MainActivity extends BaseActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Location.class));
                     }
                     ArrayAdapter<Location> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.sp_item, list);

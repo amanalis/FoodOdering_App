@@ -43,6 +43,11 @@ public class ListFoodsActivity extends BaseActivity {
 
         getIntentExtra();
         initList();
+        setVariable();
+
+    }
+
+    private void setVariable() {
 
     }
 
