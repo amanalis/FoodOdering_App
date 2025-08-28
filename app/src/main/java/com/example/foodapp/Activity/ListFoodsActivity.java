@@ -2,8 +2,11 @@ package com.example.foodapp.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -56,11 +59,21 @@ public class ListFoodsActivity extends BaseActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
         ArrayList<Foods> list = new ArrayList<>();
 
+        //adding timer
+        new Handler(Looper.getMainLooper()).postDelayed(() ->{
+           if(binding.progressBar.getVisibility() == View.VISIBLE){
+               binding.progressBar.setVisibility(View.GONE);
+               Toast.makeText(this, "Request Timeout, try again", Toast.LENGTH_SHORT).show();
+           }
+        },5000);
+
         Query query;
         if(isSearch){
             query = myRef.orderByChild("Title").startAt(searchText).endAt(searchText +'\uf8ff');
-        }else {
+        }else if (categoryId != 0) {
             query = myRef.orderByChild("CategoryId").equalTo(categoryId);
+        } else {
+            query = myRef;
         }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -81,7 +94,7 @@ public class ListFoodsActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                binding.progressBar.setVisibility(View.GONE);
             }
         });
     }

@@ -61,11 +61,20 @@ public class MainActivity extends BaseActivity {
             String text = binding.searchEdit.getText().toString();
             if (!text.isEmpty()) {
                 Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
+                intent.putExtra("CategoryName", text);
                 intent.putExtra("text", text);
                 intent.putExtra("isSearch", true);
                 startActivity(intent);
             }
 
+        });
+        binding.viewallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
+                intent.putExtra("CategoryName", "ALL FOODS");
+                startActivity(intent);
+            }
         });
     }
 
