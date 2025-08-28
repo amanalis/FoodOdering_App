@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:scaleType="centerCrop"
@@ -37,9 +37,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                    app:layout_constraintBottom_toBottomOf="@+id/img"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                    app:layout_constraintTop_toBottomOf="@+id/img"
                     app:srcCompat="@drawable/favorite_white" />
 
                 <ImageView
@@ -51,7 +51,8 @@
                     android:padding="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/arrow" />
+                    app:srcCompat="@drawable/arrow"
+                    app:tint="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -96,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:progressTint="#ffc106"
                     android:rating="3.5"
-                    android:runStars="5"
+                    android:numStars="5"
                     android:stepSize="0.1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

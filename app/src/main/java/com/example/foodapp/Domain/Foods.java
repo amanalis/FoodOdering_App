@@ -1,6 +1,10 @@
 package com.example.foodapp.Domain;
 
-public class Foods {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Foods implements Serializable {
     private int CategoryId;
     private String Description;
     private boolean BestFood;

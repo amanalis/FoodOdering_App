@@ -3,6 +3,7 @@
 package com.example.foodapp.Activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,19 +11,41 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.example.foodapp.Domain.Foods;
 import com.example.foodapp.R;
+import com.example.foodapp.databinding.ActivityDetailBinding;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
+    ActivityDetailBinding binding;
+    private Foods object;
+    private int num=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        getIntentExtra();
+        setVariale();
+    }
+
+    private void setVariale() {
+        binding.backBtn.setOnClickListener(view -> finish());
+
+        Glide.with(DetailActivity.this)
+                .load(object.getImagePath())
+                .into(binding.img);
+        binding.priceTxt.setText("$"+ object.getPrice());
+        binding.titleTxt.setText(object.getTitle());
+        binding.descriptionTxt.setText(object.getDescription());
+        binding.rateTxt.setText(object.getStar()+" Rating");
+        binding.ratingBar.setRating((float) object.getStar());
+        binding.totalTxt.setText((num * object.getPrice() + "$"));
+    }
+
+    private void getIntentExtra() {
+        object = (Foods) getIntent().getSerializableExtra("object");
     }
 }
