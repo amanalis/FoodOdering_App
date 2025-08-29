@@ -31,20 +31,36 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void splashScreen() {
-        binding.imageView5.setTranslationY(-10000f);
-        binding.textView5.setTranslationY(10000f);
-        binding.textView6.setTranslationY(10000f);
-        binding.signupBtn.setTranslationY(10000f);
-        binding.loginbtn.setTranslationY(10000f);
 
-        if((binding.imageView5.getTranslationY() == -10000f) && (binding.textView5.getTranslationY() == 10000f)){
-            binding.imageView5.animate().translationYBy(+10000f).setDuration(2000);
-            binding.textView5.animate().translationYBy(-10000f).setDuration(3000);
-            binding.textView6.animate().translationYBy(-10000f).setDuration(4000);
-            binding.signupBtn.animate().translationYBy(-10000f).setDuration(5000);
-            binding.loginbtn.animate().translationYBy(-10000f).setDuration(5000);
+        View[] views = {binding.imageView5, binding.textView5, binding.textView6, binding.signupBtn, binding.loginbtn};
 
+        int delay = 0;
+        for (View v : views) {
+            v.setAlpha(0f);
+            v.setTranslationY(300f); // small distance
+            v.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(1000)
+                    .setStartDelay(delay)
+                    .start();
+            delay += 400; // stagger timing
         }
+
+//        binding.imageView5.setTranslationY(-10000f);
+//        binding.textView5.setTranslationY(10000f);
+//        binding.textView6.setTranslationY(10000f);
+//        binding.signupBtn.setTranslationY(10000f);
+//        binding.loginbtn.setTranslationY(10000f);
+//
+//        if((binding.imageView5.getTranslationY() == -10000f) && (binding.textView5.getTranslationY() == 10000f)){
+//            binding.imageView5.animate().translationYBy(+10000f).setDuration(2000);
+//            binding.textView5.animate().translationYBy(-10000f).setDuration(3000);
+//            binding.textView6.animate().translationYBy(-10000f).setDuration(4000);
+//            binding.signupBtn.animate().translationYBy(-10000f).setDuration(5000);
+//            binding.loginbtn.animate().translationYBy(-10000f).setDuration(5000);
+//
+//        }
     }
 
     private void setVariable() {
