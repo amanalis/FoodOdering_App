@@ -30,22 +30,6 @@ Payment gateway integration
 
 Order tracking
 
-📸 Screenshots
-🔹 Home Screen
-
-Browse categories & featured dishes
-<img src="C:\Users\Lenovo\Downloads\Screenshot_2025-08-30-15-08-15-074_com.example.foodapp.jpg" width="300"/>
-
-🔹 Food Details Page
-
-View dish details and add to cart
-<img src="screenshot2.png" width="300"/>
-
-🔹 Cart Page
-
-Review selected items and place order
-<img src="screenshot3.png" width="300"/>
-
 ⚡ Getting Started
 
 Clone the repository
