@@ -37,6 +37,7 @@ import java.util.Queue;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
+    private String nameDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,13 @@ public class MainActivity extends BaseActivity {
         intiPrice();
         initBestFood();
         initCategory();
+        getIntentExtra();
         setVariable();
+    }
+
+    private void getIntentExtra() {
+        nameDB = getIntent().getStringExtra("name");
+        binding.nameTxt.setText(nameDB);
     }
 
     private void setVariable() {
