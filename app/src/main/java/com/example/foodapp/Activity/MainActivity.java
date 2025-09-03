@@ -3,6 +3,7 @@ package com.example.foodapp.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -23,6 +24,7 @@ import com.example.foodapp.Domain.Foods;
 import com.example.foodapp.Domain.Location;
 import com.example.foodapp.Domain.Price;
 import com.example.foodapp.Domain.Time;
+import com.example.foodapp.Helper.FirebaseHelper;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,13 +52,19 @@ public class MainActivity extends BaseActivity {
         intiPrice();
         initBestFood();
         initCategory();
-        getIntentExtra();
+        getUsername();
         setVariable();
     }
 
-    private void getIntentExtra() {
-        nameDB = getIntent().getStringExtra("name");
-        binding.nameTxt.setText(nameDB);
+    private void getUsername() {
+        FirebaseHelper helper = new FirebaseHelper();
+        helper.getCurrentUserName(task1 -> {
+            if (task1.isSuccessful()){
+                String name = task1.getResult().getValue(String.class);
+                Log.d("Firebase", "User name: " + name);
+                binding.nameTxt.setText(name);
+            }
+        });
     }
 
     private void setVariable() {
