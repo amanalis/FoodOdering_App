@@ -6,13 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.example.foodapp.Domain.Users;
+import com.example.foodapp.Helper.FirebaseHelper;
 import com.example.foodapp.databinding.ActivitySignupBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
 
 public class SignupActivity extends BaseActivity {
 
@@ -43,7 +39,8 @@ public class SignupActivity extends BaseActivity {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, task -> {
                 if (task.isSuccessful()) {
 
-                    DatabaseReference myref = database.getReference("users");
+//                    DatabaseReference myref = database.getReference("users");
+                    FirebaseHelper helper = new FirebaseHelper();
 
                     String name = binding.nameEdt.getText().toString();
                     String userEmail = binding.userEdt.getText().toString();
@@ -53,21 +50,19 @@ public class SignupActivity extends BaseActivity {
 
                     String uid = mAuth.getCurrentUser().getUid();
 
-                    myref.child(uid).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.i(TAG, "User Added To DB.");
-                                Log.i(TAG, "onComplete: ");
-
-                                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                                intent.putExtra("name", name);
-                                intent.putExtra("password", password);
-                                intent.putExtra("email", email);
-                                startActivity(intent);
-                            }
+                    helper.saveUser(uid,users,task1 -> {
+                        if(task1.isSuccessful()){
+                            Log.i(TAG, "User Added To DB.");
+                            Log.i(TAG, "onComplete: ");
+                            Toast.makeText(this, "Signup Successful!", Toast.LENGTH_SHORT).show();
+                            startActivity( new Intent(SignupActivity.this, MainActivity.class));
                         }
                     });
+//                    myref.child(uid).setValue(users).addOnCompleteListener((OnCompleteListener<Void>) task12 -> {
+//                        if (task12.isSuccessful()) {
+//
+//                        }
+//                    });
                 } else {
                     Log.i(TAG, "failure: " + task.getException());
                     Toast.makeText(SignupActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
