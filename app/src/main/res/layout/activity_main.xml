@@ -25,7 +25,7 @@
                 android:layout_marginEnd="16dp">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/profileIcon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Welcome"
-                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintStart_toEndOf="@+id/profileIcon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
