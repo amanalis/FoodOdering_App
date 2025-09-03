@@ -1,8 +1,5 @@
 package com.example.foodapp.Helper;
 
-import android.media.MediaPlayer;
-
-import com.example.foodapp.Activity.BaseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
