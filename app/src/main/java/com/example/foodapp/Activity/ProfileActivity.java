@@ -3,16 +3,12 @@ package com.example.foodapp.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.foodapp.Helper.FirebaseHelper;
 import com.example.foodapp.databinding.ActivityProfileBinding;
 import com.google.firebase.database.DataSnapshot;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProfileActivity extends BaseActivity {
     private ActivityProfileBinding binding;
@@ -50,28 +46,6 @@ public class ProfileActivity extends BaseActivity {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            firebaseHelper.updatePasswordEmail(oldPassword, newPassword, newEmail, task -> {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "Password and Email updated after re-auth!");
-                    Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show();
-
-                    // also sync with Realtime DB if needed
-                    String uid = mAuth.getCurrentUser().getUid();
-                    Map<String, Object> updates = new HashMap<>();
-                    updates.put("email", newEmail);
-                    updates.put("password", newPassword);
-
-                    firebaseHelper.updateUserDetails(uid, updates, dbTask -> {
-                        if (dbTask.isSuccessful()) {
-                            Log.d(TAG, "User details updated in DB!");
-                        }
-                    });
-                } else {
-                    Log.e(TAG, "Failed to update", task.getException());
-                    Toast.makeText(this, "Update failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
 
         });
 
