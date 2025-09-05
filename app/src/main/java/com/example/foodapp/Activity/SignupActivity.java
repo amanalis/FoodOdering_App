@@ -2,6 +2,8 @@ package com.example.foodapp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -34,9 +36,18 @@ public class SignupActivity extends BaseActivity {
                 Toast.makeText(SignupActivity.this, "your password must be 6 character", Toast.LENGTH_SHORT).show();
                 return;
             }
+            binding.progressBar.setVisibility(View.VISIBLE);
+            //adding timer
+            new Handler(Looper.getMainLooper()).postDelayed(() ->{
+                if(binding.progressBar.getVisibility() == View.VISIBLE){
+                    binding.progressBar.setVisibility(View.GONE);
+                    Toast.makeText(this, "Request Timeout, try again", Toast.LENGTH_SHORT).show();
+                }
+            },10000);
 
             // Need to switch if data added to Database then add to Auth.
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, task -> {
+                binding.progressBar.setVisibility(View.GONE); // ✅ Hide progress bar after response
                 if (task.isSuccessful()) {
 
 //                    DatabaseReference myref = database.getReference("users");
@@ -71,11 +82,6 @@ public class SignupActivity extends BaseActivity {
             });
         });
 
-        binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-            }
-        });
+        binding.loginRedirectText.setOnClickListener(view -> startActivity(new Intent(SignupActivity.this, LoginActivity.class)));
     }
 }

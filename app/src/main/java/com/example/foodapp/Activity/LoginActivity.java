@@ -1,25 +1,13 @@
 package com.example.foodapp.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.example.foodapp.Helper.FirebaseHelper;
-import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityLoginBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 
 public class LoginActivity extends BaseActivity {
     ActivityLoginBinding binding;
@@ -39,7 +27,18 @@ public class LoginActivity extends BaseActivity {
             String password = binding.passEdt.getText().toString();
 
             if(!email.isEmpty() && !password.isEmpty()){
+
+                binding.progressBar.setVisibility(View.VISIBLE);
+                //adding timer
+                new Handler(Looper.getMainLooper()).postDelayed(() ->{
+                    if(binding.progressBar.getVisibility() == View.VISIBLE){
+                        binding.progressBar.setVisibility(View.GONE);
+                        Toast.makeText(this, "Request Timeout, try again", Toast.LENGTH_SHORT).show();
+                    }
+                },10000);
+
                 mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, task -> {
+                    binding.progressBar.setVisibility(View.GONE); // ✅ Hide progress bar after response
                     if(task.isSuccessful()){
                         Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
                         startActivity( new Intent(LoginActivity.this, MainActivity.class));
@@ -52,11 +51,6 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-            }
-        });
+        binding.signupRedirectText.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
     }
 }
