@@ -1,6 +1,5 @@
 package com.example.foodapp.Activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,18 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapp.Adapter.FoodListAdapter;
 import com.example.foodapp.Domain.Foods;
-import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityListFoodsBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,10 +63,11 @@ public class ListFoodsActivity extends BaseActivity {
         Query query;
         if(isSearch){
             query = myRef.orderByChild("Title").startAt(searchText).endAt(searchText +'\uf8ff');
-        }else if (categoryId != 0) {
-            query = myRef.orderByChild("CategoryId").equalTo(categoryId);
-        } else {
+        }else if (categoryId == -1) {
+            Log.d(TAG,"CategoryID:"+categoryId);
             query = myRef;
+        } else {
+            query = myRef.orderByChild("CategoryId").equalTo(categoryId);
         }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -83,7 +77,7 @@ public class ListFoodsActivity extends BaseActivity {
                     for(DataSnapshot issue : snapshot.getChildren()){
                         list.add(issue.getValue(Foods.class));
                     }
-                    if(list.size() > 0){
+                    if(!list.isEmpty()){
                         binding.foodListView.setLayoutManager(new GridLayoutManager(ListFoodsActivity.this, 2));
                         adapterListFood = new FoodListAdapter(list);
                         binding.foodListView.setAdapter(adapterListFood);

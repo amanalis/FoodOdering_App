@@ -66,13 +66,10 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
 
-        binding.profileIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(MainActivity.this, ProfileActivity.class);
-                intent.putExtra("CategoryName","Profile");
-                startActivity(intent);
-            }
+        binding.profileIcon.setOnClickListener(v -> {
+            Intent intent =new Intent(MainActivity.this, ProfileActivity.class);
+            intent.putExtra("CategoryName","Profile");
+            startActivity(intent);
         });
 
         binding.searchbtn.setOnClickListener(view -> {
@@ -87,13 +84,11 @@ public class MainActivity extends BaseActivity {
 
         });
 
-        binding.viewallBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
-                intent.putExtra("CategoryName", "ALL FOODS");
-                startActivity(intent);
-            }
+        binding.viewallBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
+            intent.putExtra("CategoryId",-1);
+            intent.putExtra("CategoryName", "ALL FOODS");
+            startActivity(intent);
         });
 
         binding.cartbtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
@@ -111,7 +106,7 @@ public class MainActivity extends BaseActivity {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Foods.class));
                     }
-                    if (list.size() > 0) {
+                    if (!list.isEmpty()) {
                         binding.bestFoodView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
                         RecyclerView.Adapter adapter = new BestFoodsAdapter(list);
                         binding.bestFoodView.setAdapter(adapter);
@@ -139,7 +134,7 @@ public class MainActivity extends BaseActivity {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Category.class));
                     }
-                    if (list.size() > 0) {
+                    if (!list.isEmpty()) {
                         binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                         RecyclerView.Adapter adapter = new CategoryAdapter(list);
                         binding.categoryView.setAdapter(adapter);
